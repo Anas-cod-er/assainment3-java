@@ -17,9 +17,17 @@ after_call:
     addi a7, x0, 10
     ecall
 sum_array:
-
-    # TODO: use t0=sum, t1=i, t2=pointer, t3=loaded value.
-    # Initialize, check n before lw, accumulate, advance, repeat.
-    # Replace the placeholder below with your implementation.
-    addi a0, x0, 0        # PLACEHOLDER: returns zero for every input
+    addi t0, x0, 0        # sum = 0
+    addi t1, x0, 0        # i = 0
+    addi t2, a0, 0        # pointer = base
+sum_loop:
+    beq  t1, a1, sum_done
+    lw   t3, 0(t2)
+    add  t0, t0, t3
+    addi t2, t2, 4
+    addi t1, t1, 1
+    jal  x0, sum_loop
+sum_done:
+    addi a0, t0, 0
     jalr x0, 0(ra)
+  
